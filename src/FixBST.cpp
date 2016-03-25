@@ -31,7 +31,38 @@ struct node{
 	int data;
 	struct node *right;
 };
-
+struct node *misplaced1 = NULL, *misplaced2 = NULL, *prev = NULL;
+void swap(struct node *first, struct node *second)
+{
+	int number = first->data;
+	first->data = second->data;
+	second->data = number;
+}
+void modified_inorder(struct node *root)
+{
+	if (!root)
+		return;
+	else
+	{
+		modified_inorder(root->left);
+		if (prev == NULL)
+			prev = root;
+		else if (root->data < prev->data)
+		{
+			if (misplaced1 == NULL)
+				misplaced1 = prev;
+			else if (misplaced2 == NULL)
+				swap(misplaced1, root);
+		}
+		prev = root;
+		modified_inorder(root->right);
+	}
+}
 void fix_bst(struct node *root){
-
+	if (!root)
+		return;
+	else
+	{
+		modified_inorder(root);
+	}
 }

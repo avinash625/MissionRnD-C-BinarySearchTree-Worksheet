@@ -22,14 +22,68 @@ struct node{
 	struct node *right;
 };
 
+void inorder_method(struct node *root, int *arr,int *index)
+{
+	
+	if (!root)
+	{
+		return;
+	}
+	else
+	{
+		inorder_method(root->left, arr,index);
+		arr[*index] = root->data;
+		(*index)++;
+		inorder_method(root->right, arr,index);
+	}
+}
 
 void inorder(struct node *root, int *arr){
-	
+	int index = 0;
+	if (root != NULL && arr != NULL)
+		inorder_method(root, arr,&index);
+	else
+		return;
+}
+void preorder_method(struct node *root, int *arr,int *index)
+{
+	if (!root)
+	{
+		return;
+	}
+	else
+	{
+		arr[*index] = root->data;
+		(*index)++;
+		preorder_method(root->left, arr,index);
+		preorder_method(root->right, arr,index);
+	}
 }
 void preorder(struct node *root, int *arr){
+	int index = 0;
+	if (root != NULL && arr != NULL)
+		preorder_method(root, arr,&index);
+	else
+		return;
+}
+void postorder_method(struct node *root, int *arr,int *index)
+{
 	
+	if (!root)
+		return;
+	else
+	{
+		postorder_method(root->left, arr,index);
+		postorder_method(root->right, arr,index);
+		arr[*index] = root->data;
+		(*index)++;
+	}
 }
 void postorder(struct node *root, int *arr){
-	
+	int index = 0;
+	if (root != NULL && arr != NULL)
+		postorder_method(root, arr,&index);
+	else
+		return;
 }
 
