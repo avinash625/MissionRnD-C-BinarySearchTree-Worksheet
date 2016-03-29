@@ -30,8 +30,40 @@ struct node{
 };
 
 
-
+int hgt(struct node *root)
+{
+	int ht;
+	if (!root)
+		return 0;
+	else
+		ht =  hgt(root->left) > hgt(root->right) ? hgt(root->left) : hgt(root->right);
+	return ht + 1;
+}
+void get_elements(struct node *root, int level, int *arr, int *index)
+{
+	if (level == 0)
+	{
+		arr[*index] = root->data;
+		(*index)++;
+	}
+	else
+	{
+		get_elements(root->right, level - 1, arr, index);
+		get_elements(root->left, level - 1, arr, index);
+	}
+}
 int* BSTRighttoLeftRows(struct node* root)
 {
-    return NULL;
+	int arr[25] = { 0 }, ht, level, index = 0;
+	if (!root)
+		return NULL;
+	else
+	{
+		ht = hgt(root);
+		for (level = 0; level < ht; level++)
+		{
+			get_elements(root, level, arr, &index);
+		}
+	}
+	return arr;
 }

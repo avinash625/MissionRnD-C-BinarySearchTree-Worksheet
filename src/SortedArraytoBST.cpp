@@ -32,37 +32,34 @@ struct node{
 	int data;
 	struct node *right;
 };
-
-struct node * insert(struct node *root, int data)
+struct node *insert(struct node *root,int *arr, int start, int end)
 {
-	if (!root)
+	struct node *temp;
+	int middle = (start + end) / 2;
+	if (start > end)
+		return NULL;
+	if (start == end)
 	{
-		root = (struct node *)malloc(sizeof(struct node));
-		root->data = data;
-		root->left = NULL;
-		root->right = NULL;
+		temp = (struct node *)malloc(sizeof(struct node));
+		temp->data = arr[middle];
+		temp->left = temp->right = NULL;
 	}
 	else
 	{
-		if (data > root->data)
-			root = insert(root->right, data);
-		else
-			root = insert(root->left, data);
+		temp = (struct node*)malloc(sizeof(struct node));
+		temp->data = arr[middle];
+		temp->left = insert(temp, arr, start, middle - 1);
+		temp->right = insert(temp, arr, middle + 1, end);
 	}
-	return root;
+	return temp;
 }
 struct node * convert_array_to_bst(int *arr, int len){
-
-	int root_value;
-	struct node *temp = NULL, *root = NULL;
-	int i, data;
-	root_value = len / 2;
-	root = insert(root, arr[root_value]);
-	for (i = 0; i < root_value; i++)
+	struct node *root = NULL;
+	if (arr == NULL)
+		return NULL;
+	else
 	{
-		root = insert(root, arr[i]);
+		root = insert(root,arr, 0, len - 1);
 	}
-	for (i = root_value + 1; i < len; i++)
-		root = insert(root, arr[i]);
 	return root;
 }
