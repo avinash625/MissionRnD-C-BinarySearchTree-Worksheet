@@ -41,10 +41,12 @@ int hgt(struct node *root)
 }
 void get_elements(struct node *root, int level, int *arr, int *index)
 {
-	if (level == 0)
+	if (!root)
+		return;
+	if (level == 1)
 	{
 		arr[*index] = root->data;
-		(*index)++;
+		(*index) = (*index) + 1;
 	}
 	else
 	{
@@ -52,9 +54,19 @@ void get_elements(struct node *root, int level, int *arr, int *index)
 		get_elements(root->left, level - 1, arr, index);
 	}
 }
+int get_tree_size(struct node *root)
+{
+	if (!root)
+		return 0;
+	else
+	{
+		return get_tree_size(root->left) + get_tree_size(root->right) + 1;
+	}
+}
 int* BSTRighttoLeftRows(struct node* root)
 {
-	int arr[25] = { 0 }, ht, level, index = 0;
+	int  ht, level, index = 0;
+	int *arr = (int *)malloc(sizeof(int)*get_tree_size(root));
 	if (!root)
 		return NULL;
 	else
@@ -62,7 +74,7 @@ int* BSTRighttoLeftRows(struct node* root)
 		ht = hgt(root);
 		for (level = 0; level < ht; level++)
 		{
-			get_elements(root, level, arr, &index);
+			get_elements(root, level+1, arr, &index);
 		}
 	}
 	return arr;
